@@ -7,69 +7,70 @@ const Challenge = ({
   addHistory,
   operation,
 }) => {
-  const [question, setQuestion] = useState({});
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
   const [userAnswer, setUserAnswer] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState(null);
+  const [correct, setCorrect] = useState(null);
+  const [lastAnswer, setLastAnswer] = useState('');
 
   useEffect(() => {
     generateQuestion();
   }, [level, operation]);
 
   const generateQuestion = () => {
+    let num1, num2, op;
     const operations = operation === 'all' ? ['+', '-', '*', '/'] : [operation];
-    const chosenOperation =
-      operations[Math.floor(Math.random() * operations.length)];
-    let num1, num2, questionText, answer;
+    op = operations[Math.floor(Math.random() * operations.length)];
 
-    do {
-      num1 = Math.floor(Math.random() * (10 * level)) + 1;
-      num2 = Math.floor(Math.random() * (10 * level)) + 1;
-      questionText = `${num1} ${chosenOperation} ${num2}`;
-      answer = eval(questionText);
+    if (op === '+') {
+      num1 = Math.floor(Math.random() * level * 10) + 1;
+      num2 = Math.floor(Math.random() * level * 10) + 1;
+    } else if (op === '-') {
+      num1 = Math.floor(Math.random() * level * 10) + 1;
+      num2 = Math.floor(Math.random() * num1) + 1; // num2 should be less than num1 to avoid negative answers
+    } else if (op === '*') {
+      num1 = Math.floor(Math.random() * level) + 1;
+      num2 = Math.floor(Math.random() * level) + 1;
+    } else if (op === '/') {
+      num2 = Math.floor(Math.random() * level) + 1;
+      num1 = num2 * (Math.floor(Math.random() * level) + 1); // Ensure num1 is divisible by num2
+    }
 
-      if (chosenOperation === '/') {
-        questionText = `${num1 * num2} / ${num2}`;
-        answer = num1;
-      }
-    } while (answer < 0 || !Number.isInteger(answer));
-
-    setQuestion({ text: questionText, answer: parseFloat(answer.toFixed(2)) });
-    setUserAnswer('');
-    setCorrectAnswer(null);
+    setQuestion(`${num1} ${op} ${num2}`);
+    setAnswer(eval(`${num1} ${op} ${num2}`).toFixed(2));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (parseFloat(userAnswer) === question.answer) {
-      setCorrectAnswer(true);
-      increaseLevel();
+    const isCorrect = parseFloat(userAnswer) === parseFloat(answer);
+    setCorrect(isCorrect);
+    setLastAnswer(answer);
+    addHistory(question, userAnswer, answer, isCorrect);
+    if (isCorrect) {
       updateScore(10);
-      addHistory(question.text, true);
-    } else {
-      setCorrectAnswer(false);
-      updateScore(-5);
-      addHistory(question.text, false);
+      increaseLevel();
     }
+    setUserAnswer('');
+    generateQuestion();
   };
 
   return (
     <div>
-      <p style={{ fontSize: '1.5em', color: '#4b0082' }}>Nível: {level}</p>
-      <p style={{ fontSize: '1.5em', color: '#4b0082' }}>
-        Resolva: {question.text}
-      </p>
+      <h2>Questão: {question}</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="number"
+          type="text"
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
-          step="0.01"
+          required
         />
-        <button type="submit">Enviar</button>
+        <button type="submit">Responder</button>
       </form>
-      {correctAnswer === true && <p className="correct">Resposta Correta!</p>}
-      {correctAnswer === false && (
-        <p className="incorrect">Resposta Incorreta. Tente novamente!</p>
+      {correct === true && <p className="correct">Correto!</p>}
+      {correct === false && (
+        <p className="incorrect">
+          Incorreto! A resposta certa era {lastAnswer}
+        </p>
       )}
     </div>
   );

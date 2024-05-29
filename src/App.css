@@ -1,25 +1,35 @@
-.App {
-  text-align: center;
-  background-color: #f0f8ff;
-  min-height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;700&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Baloo Bhaina 2', cursive;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  align-items: center;
+  background-color: #1e1e1e; /* Cor escura para o fundo */
 }
 
-.App-header {
-  border-radius: 15px;
+.App {
+  text-align: center;
+  width: 100%;
+  width: 700px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  background-color: #f0f8ff; /* Cor clara para o fundo do modal */
+  color: #333333; /* Cor da fonte */
+  height: 500px; /* Altura limitada */
+  overflow-y: auto; /* Adiciona scroll vertical */
 }
 
 .user-setup {
-  background-color: #e0f7fa;
+  background-color: #e0f7fa; /* Neutra */
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #00796b;
 }
 
 .user-setup h1 {
@@ -59,19 +69,16 @@ button:hover {
 
 h1 {
   font-size: 2.5em;
-  color: #ff69b4;
 }
 
 h2, h3 {
   margin-top: 1em;
-  color: #4b0082;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
   font-size: 1.2em;
-  color: #4b0082;
 }
 
 li {
@@ -84,4 +91,76 @@ li {
 
 .incorrect {
   color: red;
+}
+
+/* Neutral theme */
+.App.neutral {
+  background-color: #e0f7fa; /* Light cyan */
+  color: #00796b; /* Teal */
+}
+
+.App.neutral h2, .App.neutral h3 {
+  color: #00796b; /* Teal */
+}
+
+/* Boy theme */
+.App.boy {
+  background-color: #cceeff; /* Light blue */
+  color: #1e3a5f; /* Dark blue */
+}
+
+.App.boy h2, .App.boy h3 {
+  color: #1e3a5f; /* Dark blue */
+}
+
+/* Girl theme */
+.App.girl {
+  background-color: #ffe6f9; /* Light pink */
+  color: #4b0082; /* Indigo */
+}
+
+.App.girl h2, .App.girl h3 {
+  color: #4b0082; /* Indigo */
+}
+
+/* Customização do scroll para a tela neutra */
+.App.neutral {
+  scrollbar-color: #00796b #e0f7fa; /* Cor do thumb e track */
+}
+
+.App.neutral::-webkit-scrollbar {
+  width: 12px;
+}
+
+.App.neutral::-webkit-scrollbar-thumb {
+  background-color: #00796b; /* Cor do thumb */
+  border-radius: 6px;
+}
+
+/* Customização do scroll para meninos */
+.App.boy {
+  scrollbar-color: #1e3a5f #cceeff; /* Cor do thumb e track */
+}
+
+.App.boy::-webkit-scrollbar {
+  width: 12px;
+}
+
+.App.boy::-webkit-scrollbar-thumb {
+  background-color: #1e3a5f; /* Cor do thumb */
+  border-radius: 6px;
+}
+
+/* Customização do scroll para meninas */
+.App.girl {
+  scrollbar-color: #4b0082 #ffe6f9; /* Cor do thumb e track */
+}
+
+.App.girl::-webkit-scrollbar {
+  width: 12px;
+}
+
+.App.girl::-webkit-scrollbar-thumb {
+  background-color: #4b0082; /* Cor do thumb */
+  border-radius: 6px;
 }
